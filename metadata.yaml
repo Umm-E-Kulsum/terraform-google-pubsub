@@ -22,7 +22,7 @@ spec:
   info:
     title: terraform-google-pubsub
     source:
-      repo: https://github.com/terraform-google-modules/terraform-google-pubsub
+      repo: https://github.com/Umm-E-Kulsum/terraform-google-pubsub
       sourceType: git
     version: 8.6.0
     actuationTool:
