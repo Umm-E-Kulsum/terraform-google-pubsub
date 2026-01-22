@@ -99,7 +99,7 @@ resource "google_pubsub_topic_iam_member" "bigquery_topic_binding" {
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_binding" {
-  for_each = var.create_subscriptions ? { for i in var.pull_subscriptions : i.name => i if i.dead_letter_topic != null } : {}
+  for_each = var.create_subscriptions ? { for i in var.pull_subscriptions : i.name => i if lookup(i, "use_sa_iam_binding", false) } : {}
 
   project      = var.project_id
   subscription = each.value.name
@@ -115,7 +115,7 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_binding" {
 }
 
 resource "google_pubsub_subscription_iam_member" "push_subscription_binding" {
-  for_each = var.create_subscriptions ? { for i in var.push_subscriptions : i.name => i if i.dead_letter_topic != null } : {}
+  for_each = var.create_subscriptions ? { for i in var.pull_subscriptions : i.name => i if lookup(i, "use_sa_iam_binding", false) } : {}
 
   project      = var.project_id
   subscription = each.value.name
