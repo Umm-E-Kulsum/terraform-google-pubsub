@@ -383,8 +383,9 @@ resource "google_pubsub_subscription" "cloud_storage_subscriptions" {
   ]
 }
 
+
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_subscriber" {
-  for_each = var.create_subscriptions ? { for i, s in var.pull_subscriptions : i => s } : {}
+  for_each = var.create_subscriptions ? { for s in var.pull_subscriptions : s.name => s } : {}
 
   project      = var.project_id
   subscription = each.value.name
@@ -400,7 +401,7 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_s
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_viewer" {
-  for_each = var.create_subscriptions ? { for i, s in var.pull_subscriptions : i => s } : {}
+  for_each = var.create_subscriptions ? { for s in var.pull_subscriptions : s.name => s } : {}
 
   project      = var.project_id
   subscription = each.value.name
