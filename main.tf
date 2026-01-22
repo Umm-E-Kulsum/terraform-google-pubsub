@@ -385,7 +385,6 @@ resource "google_pubsub_subscription" "cloud_storage_subscriptions" {
 
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_subscriber" {
-  # FIX: Use index 'k' AND remove 'if' filter that depends on unknown service account
   for_each = var.create_subscriptions ? { for k, i in var.pull_subscriptions : k => i } : {}
 
   project      = var.project_id
@@ -403,7 +402,6 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_s
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_viewer" {
-  # FIX: Use index 'k' AND remove 'if' filter that depends on unknown service account
   for_each = var.create_subscriptions ? { for k, i in var.pull_subscriptions : k => i } : {}
 
   project      = var.project_id
