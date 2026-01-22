@@ -108,6 +108,7 @@ spec:
               filter                       = optional(string),
               enable_message_ordering      = optional(bool),
               service_account              = optional(string),
+              use_sa_iam_binding           = optional(bool),
               enable_exactly_once_delivery = optional(bool),
             }))
         defaultValue: []
