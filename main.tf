@@ -384,10 +384,10 @@ resource "google_pubsub_subscription" "cloud_storage_subscriptions" {
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_subscriber" {
-  for_each = var.create_subscriptions ? { 
-  for i in var.pull_subscriptions : i.name => i 
-  if lookup(i, "use_sa_iam_binding", false) 
-} : {}
+  for_each = {
+    for i, s in var.pull_subscriptions : i => s
+    if s.service_account != null
+  }
 
   project      = var.project_id
   subscription = each.value.name
@@ -403,10 +403,10 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_s
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_viewer" {
-  for_each = var.create_subscriptions ? { 
-  for i in var.pull_subscriptions : i.name => i 
-  if lookup(i, "use_sa_iam_binding", false) 
-} : {}
+  for_each = {
+    for i, s in var.push_subscriptions : i => s
+    if s.oidc_service_account_email != null
+  }
 
   project      = var.project_id
   subscription = each.value.name
