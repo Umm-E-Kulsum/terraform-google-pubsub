@@ -108,7 +108,6 @@ spec:
               filter                       = optional(string),
               enable_message_ordering      = optional(bool),
               service_account              = optional(string),
-              use_sa_iam_binding           = optional(bool),
               enable_exactly_once_delivery = optional(bool),
             }))
         defaultValue: []
@@ -127,7 +126,7 @@ spec:
               source: github.com/terraform-google-modules/terraform-google-vm//modules/compute_instance
               version: ">= 14.1.0"
             spec:
-              outputExpr: "{ \"name\": \"compute-instance-sub\", \"service_account\": service_account_email, \"use_sa_iam_binding\": true }"
+              outputExpr: "{ \"name\": \"compute-instance-sub\", \"service_account\": service_account_email }"
       - name: bigquery_subscriptions
         description: The list of the Bigquery push subscriptions.
         varType: |-
