@@ -397,7 +397,7 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_s
 
   lifecycle {
     # Reference the subscription by its index key 'k'
-    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.key]]
+    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.value.name]]
   }
 }
 
@@ -414,6 +414,6 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_v
 
   lifecycle {
     # Reference the subscription by its index key 'k'
-    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.key]]
+    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.value.name]]
   }
 }
