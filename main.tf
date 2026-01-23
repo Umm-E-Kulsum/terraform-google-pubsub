@@ -385,6 +385,7 @@ resource "google_pubsub_subscription" "cloud_storage_subscriptions" {
 
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_subscriber" {
+  # Sync keys with pull_subscriptions resource
   for_each = var.create_subscriptions ? { for k, i in var.pull_subscriptions : k => i } : {}
 
   project      = var.project_id
@@ -396,12 +397,13 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_s
   ]
 
   lifecycle {
-    # Reference the subscription by its index key 'k'
-    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.value.name]]
+    # Use each.key to correctly reference the synchronized index-based subscription
+    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.key]]
   }
 }
 
 resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_viewer" {
+  # Sync keys with pull_subscriptions resource
   for_each = var.create_subscriptions ? { for k, i in var.pull_subscriptions : k => i } : {}
 
   project      = var.project_id
@@ -413,7 +415,8 @@ resource "google_pubsub_subscription_iam_member" "pull_subscription_sa_binding_v
   ]
 
   lifecycle {
-    # Reference the subscription by its index key 'k'
-    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.value.name]]
+    # Use each.key to correctly reference the synchronized index-based subscription
+    replace_triggered_by = [google_pubsub_subscription.pull_subscriptions[each.key]]
   }
 }
+
